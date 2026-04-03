@@ -19,11 +19,27 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Build and Publish
-        run: dotnet publish src/AzureFridayApp.csproj --configuration Release --output ./publish
+        run: |
+          dotnet publish src/AzureFridayApp.csproj --configuration Release --output ./publish
+          cd publish && zip -r ../deploy.zip . && cd ..
 
-      - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: app-zava
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ./publish
+      - name: Deploy to Azure via Kudu
+        env:
+          PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        run: |
+          # Extract credentials from publish profile
+          USER=$(echo "$PUBLISH_PROFILE" | grep -oP 'userName="\K[^"]+' | head -1)
+          PASS=$(echo "$PUBLISH_PROFILE" | grep -oP 'userPWD="\K[^"]+' | head -1)
+          echo "Deploying to app-zava..."
+          RESULT=$(curl -s -w "%{http_code}" -o /tmp/deploy_response.txt \
+            -X POST "https://app-zava.scm.azurewebsites.net/api/zipdeploy" \
+            -u "$USER:$PASS" \
+            --data-binary @deploy.zip \
+            -H "Content-Type: application/zip")
+          echo "Deploy status: $RESULT"
+          cat /tmp/deploy_response.txt
+          if [ "$RESULT" != "200" ] && [ "$RESULT" != "202" ]; then
+            echo "Deployment failed with status $RESULT"
+            exit 1
+          fi
+          echo "Deployment successful!"
