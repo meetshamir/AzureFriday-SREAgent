@@ -1,0 +1,56 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build and Publish
+        run: dotnet publish src/AzureFridayApp.csproj --configuration Release --output ./publish
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: app-zava
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
+
+      - name: Notify SRE Agent
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+          echo "📡 Triggering SRE Agent via HTTP..."
+          curl -s -X POST "https://zava-sreagent-1--00660dd9.6665b3be.eastus2.azuresre.ai/api/v1/httptriggers/trigger/48631b1c-fd4a-44fa-9f2a-77d0bf950590" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"source\": \"github-actions\",
+              \"event\": \"deployment_completed\",
+              \"repo\": \"${{ github.repository }}\",
+              \"workflow\": \"${{ github.workflow }}\",
+              \"run_id\": \"${{ github.run_id }}\",
+              \"run_url\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\",
+              \"commit_sha\": \"${{ github.sha }}\",
+              \"commit_message\": $(echo '${{ github.event.head_commit.message }}' | head -1 | jq -Rs .),
+              \"branch\": \"${{ github.ref_name }}\",
+              \"actor\": \"${{ github.actor }}\",
+              \"app_name\": \"app-zava\",
+              \"app_url\": \"https://app-zava.azurewebsites.net\",
+              \"health_endpoint\": \"https://app-zava.azurewebsites.net/health\",
+              \"status\": \"${STATUS}\",
+              \"message\": \"Deployment ${STATUS}. Please validate the application health.\"
+            }"
+          echo ""
+          echo "✅ SRE Agent notified"

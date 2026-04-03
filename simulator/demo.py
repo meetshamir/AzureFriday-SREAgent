@@ -990,7 +990,7 @@ def scenario_bad_deployment():
                         payload = {
                             "source": "simulator",
                             "event": "deployment_completed",
-                            "repo": "saziz_microsoft/Zava",
+                            "repo": "meetshamir/AzureFriday-SREAgent",
                             "app_name": "app-zava",
                             "app_url": APP_URL,
                             "health_endpoint": HEALTH_URL,
