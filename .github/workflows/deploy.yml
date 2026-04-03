@@ -22,7 +22,7 @@ jobs:
         run: dotnet publish src/AzureFridayApp.csproj --configuration Release --output ./publish
 
       - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v2
         with:
           app-name: app-zava
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
