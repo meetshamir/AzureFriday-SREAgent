@@ -63,15 +63,15 @@ if sys.platform == "win32":
 # ── Config (override with env vars) ────────────────────────
 SQL_SERVER   = os.environ.get("ZAVA_SQL_SERVER",   "sql-zava.database.windows.net")
 SQL_DATABASE = os.environ.get("ZAVA_SQL_DATABASE", "sqldb-zava")
-SQL_USER     = os.environ.get("ZAVA_SQL_USER",     "CloudSAe816d324")
-SQL_PASSWORD = os.environ.get("ZAVA_SQL_PASSWORD", "Zava2026!Demo#Secure")
+SQL_USER     = os.environ.get("ZAVA_SQL_USER",     "")
+SQL_PASSWORD = os.environ.get("ZAVA_SQL_PASSWORD", "")
 
 APP_URL      = os.environ.get("ZAVA_APP_URL",      "https://app-zava.azurewebsites.net")
 HEALTH_URL   = f"{APP_URL}/health"
 
-SN_URL       = os.environ.get("ZAVA_SN_URL",  "https://dev268981.service-now.com")
+SN_URL       = os.environ.get("ZAVA_SN_URL",  "")
 SN_USER      = os.environ.get("ZAVA_SN_USER", "admin")
-SN_PASS      = os.environ.get("ZAVA_SN_PASS", "ME@6SkW2d*lc")
+SN_PASS      = os.environ.get("ZAVA_SN_PASS", "")
 
 console = Console()
 
@@ -135,7 +135,7 @@ def _check_alert_fired():
     """Check if the DTU alert has fired recently via Azure REST API."""
     try:
         import subprocess
-        sub = "e964602f-6afc-4cc7-ba6b-3a796008e254"
+        sub = "<YOUR_SUBSCRIPTION_ID>"
         result = subprocess.run(
             f'az rest --method GET --url "https://management.azure.com/subscriptions/{sub}/providers/Microsoft.AlertsManagement/alerts?api-version=2019-03-01&targetResourceGroup=rg-zava"',
             capture_output=True, text=True, timeout=15, shell=True
@@ -898,7 +898,7 @@ _AZ_CONN_CMD_GOOD = (
     '--name app-zava --resource-group rg-zava '
     '--connection-string-type SQLAzure '
     '--settings "DefaultConnection=Server=sql-zava.database.windows.net;'
-    'Database=sqldb-zava;User Id=CloudSAe816d324;Password=Zava2026!Demo#Secure;'
+    'Database=sqldb-zava;User Id=<SQL_USER>;Password=<SQL_PASSWORD>;'
     'Encrypt=True;TrustServerCertificate=True;" '
     '-o none 2>&1'
 )
@@ -908,14 +908,14 @@ _AZ_CONN_CMD_BAD = (
     '--name app-zava --resource-group rg-zava '
     '--connection-string-type SQLAzure '
     '--settings "DefaultConnection=Server=sql-zava-WRONG.database.windows.net;'
-    'Database=sqldb-zava;User Id=CloudSAe816d324;Password=Zava2026!Demo#Secure;'
+    'Database=sqldb-zava;User Id=<SQL_USER>;Password=<SQL_PASSWORD>;'
     'Encrypt=True;TrustServerCertificate=True;" '
     '-o none 2>&1'
 )
 
 _WEBHOOK_URL = (
-    "https://zava-sreagent-1--00660dd9.6665b3be.eastus2.azuresre.ai"
-    "/api/v1/httptriggers/trigger/4f751fb9-e959-4cab-8961-6230c3c09002"
+    "<YOUR_AGENT_URL>"
+    "/api/v1/httptriggers/trigger/<YOUR_TRIGGER_ID>"
 )
 
 
@@ -1113,7 +1113,7 @@ def scenario_servicenow():
             "short_description":
                 "Laptop replacement request - Shamir Abdul Aziz",
             "description": (
-                "Employee Shamir Abdul Aziz (saziz@microsoft.com, EMP-10042, "
+                "Employee Shamir Abdul Aziz (user@company.com, EMP-10042, "
                 "Engineering Department) is requesting a laptop replacement.\n\n"
                 "Current laptop: Dell XPS 15 9530\n"
                 "Serial Number: SN-2023-XPS-4471\n"

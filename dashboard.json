@@ -20,7 +20,7 @@
               "inputs": [],
               "settings": {
                 "content": {
-                  "content": "## Zava Operations Dashboard\n**Real-time monitoring** for SQL Database, App Service, and Application Insights.\n\n_Subscription:_ `e964602f-6afc-4cc7-ba6b-3a796008e254` &nbsp;|&nbsp; _Resource Group:_ `rg-zava` &nbsp;|&nbsp; _Region:_ `westus2`",
+                  "content": "## Zava Operations Dashboard\n**Real-time monitoring** for SQL Database, App Service, and Application Insights.\n\n_Subscription:_ `<YOUR_SUBSCRIPTION_ID>` &nbsp;|&nbsp; _Resource Group:_ `rg-zava` &nbsp;|&nbsp; _Region:_ `westus2`",
                   "title": "Zava Operations Dashboard",
                   "subtitle": "Enterprise Monitoring",
                   "markdownSource": 1,
@@ -41,7 +41,7 @@
               "inputs": [],
               "settings": {
                 "content": {
-                  "content": "[> Resource Group](https://portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/overview)\n\n[> SQL Database](https://portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava/overview)",
+                  "content": "[> Resource Group](https://portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/overview)\n\n[> SQL Database](https://portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava/overview)",
                   "title": "Quick Links",
                   "subtitle": "",
                   "markdownSource": 1,
@@ -88,7 +88,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava"
                           },
                           "name": "dtu_consumption_percent",
                           "aggregationType": 4,
@@ -148,7 +148,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava"
                           },
                           "name": "cpu_percent",
                           "aggregationType": 4,
@@ -208,7 +208,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava"
                           },
                           "name": "physical_data_read_percent",
                           "aggregationType": 4,
@@ -268,7 +268,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Sql/servers/sql-zava/databases/sqldb-zava"
                           },
                           "name": "connection_successful",
                           "aggregationType": 1,
@@ -349,7 +349,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Web/sites/app-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Web/sites/app-zava"
                           },
                           "name": "HttpResponseTime",
                           "aggregationType": 4,
@@ -409,7 +409,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Web/sites/app-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Web/sites/app-zava"
                           },
                           "name": "Http2xx",
                           "aggregationType": 1,
@@ -421,7 +421,7 @@
                         },
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Web/sites/app-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Web/sites/app-zava"
                           },
                           "name": "Http4xx",
                           "aggregationType": 1,
@@ -433,7 +433,7 @@
                         },
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Web/sites/app-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Web/sites/app-zava"
                           },
                           "name": "Http5xx",
                           "aggregationType": 1,
@@ -493,7 +493,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Web/serverfarms/plan-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Web/serverfarms/plan-zava"
                           },
                           "name": "CpuPercentage",
                           "aggregationType": 4,
@@ -553,7 +553,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/Microsoft.Web/serverfarms/plan-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/Microsoft.Web/serverfarms/plan-zava"
                           },
                           "name": "MemoryPercentage",
                           "aggregationType": 4,
@@ -634,7 +634,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/microsoft.insights/components/ai-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/microsoft.insights/components/ai-zava"
                           },
                           "name": "requests/duration",
                           "aggregationType": 4,
@@ -694,7 +694,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/microsoft.insights/components/ai-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/microsoft.insights/components/ai-zava"
                           },
                           "name": "requests/failed",
                           "aggregationType": 1,
@@ -754,7 +754,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/e964602f-6afc-4cc7-ba6b-3a796008e254/resourceGroups/rg-zava/providers/microsoft.insights/components/ai-zava"
+                            "id": "/subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/rg-zava/providers/microsoft.insights/components/ai-zava"
                           },
                           "name": "dependencies/failed",
                           "aggregationType": 1,

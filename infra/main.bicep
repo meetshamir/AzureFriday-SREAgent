@@ -14,7 +14,7 @@ targetScope = 'resourceGroup'
 param location string = 'westus2'
 
 @description('SQL Server administrator username')
-param sqlAdminUser string = 'CloudSAe816d324'
+param sqlAdminUser string = 'sqladmin'
 
 @secure()
 @description('SQL Server administrator password')

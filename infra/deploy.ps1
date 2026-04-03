@@ -83,7 +83,7 @@ if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-$SqlAdminUser = 'CloudSAe816d324'
+$SqlAdminUser = 'sqladmin'
 $SqlServer    = "sql-$Prefix"
 $SqlDatabase  = "sqldb-$Prefix"
 $AppName      = "app-$Prefix"

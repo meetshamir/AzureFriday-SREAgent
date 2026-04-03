@@ -1,0 +1,99 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      force_failure:
+        description: 'Simulate deployment failure'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore src/AzureFridayApp.csproj
+
+      - name: Build
+        run: dotnet build src/AzureFridayApp.csproj --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test src/AzureFridayApp.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Publish
+        run: dotnet publish src/AzureFridayApp.csproj --configuration Release --output ./publish
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-package
+          path: ./publish
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: production
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-package
+          path: ./publish
+
+      - name: Deploy to Azure App Service
+        if: ${{ github.event.inputs.force_failure != 'true' }}
+        run: |
+          echo "🚀 Deploying to Azure App Service (app-zava)..."
+          echo "Target: https://app-zava.azurewebsites.net"
+          echo "Deployment successful!"
+
+      - name: Simulate deployment failure
+        if: ${{ github.event.inputs.force_failure == 'true' }}
+        run: |
+          echo "🚀 Deploying to Azure App Service (app-zava)..."
+          echo "Target: https://app-zava.azurewebsites.net"
+          echo "❌ ERROR: Connection to Azure App Service timed out"
+          echo "❌ ERROR: Failed to swap deployment slot 'staging' to 'production'"
+          echo "❌ ERROR: Health check failed - endpoint https://app-zava.azurewebsites.net/health returned HTTP 503"
+          exit 1
+
+      - name: Notify SRE Agent
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+          echo "📡 Triggering SRE Agent via HTTP..."
+          curl -s -X POST "${{ secrets.SRE_AGENT_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"source\": \"github-actions\",
+              \"event\": \"deployment_completed\",
+              \"repo\": \"${{ github.repository }}\",
+              \"workflow\": \"${{ github.workflow }}\",
+              \"run_id\": \"${{ github.run_id }}\",
+              \"run_url\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\",
+              \"commit_sha\": \"${{ github.sha }}\",
+              \"commit_message\": \"${{ github.event.head_commit.message }}\",
+              \"branch\": \"${{ github.ref_name }}\",
+              \"actor\": \"${{ github.actor }}\",
+              \"app_name\": \"app-zava\",
+              \"app_url\": \"https://app-zava.azurewebsites.net\",
+              \"health_endpoint\": \"https://app-zava.azurewebsites.net/health\",
+              \"status\": \"${STATUS}\",
+              \"message\": \"Deployment ${STATUS}. Please validate the application health and verify the changes are working correctly.\"
+            }"
+          echo ""
+          echo "✅ SRE Agent notified - investigation will begin automatically"
