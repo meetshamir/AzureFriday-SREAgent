@@ -1,0 +1,9 @@
+bin/
+obj/
+publish/
+__pycache__/
+*.pyc
+*.zip
+.env
+node_modules/
+.playwright-mcp/
